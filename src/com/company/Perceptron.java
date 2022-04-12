@@ -14,7 +14,7 @@ public class Perceptron {
 
     final double stala_uczenia ;
     final double akceptowalny_procent_bladow ;
-    double prog_odchylenia = 3 ;
+    public double Teta = 3 ;
     private List<Double> wagi = new ArrayList<>();
     private int number_of_wagi ;
     String Perceptron_name;
@@ -39,41 +39,44 @@ public class Perceptron {
             System.out.print(e + " ");
         }
 
-        System.out.print("\nProg odchylenia: "+ prog_odchylenia + "\n");
+        System.out.print("\nProg odchylenia: "+ Teta + "\n");
     }
 
-    public void learn (List<Double> tested , int szacowany , int prawdziwy ) {
-
+    public void learn (List<Double> tested , int d , int y ) {
+        // d - oczekiwana
+        // y - aktualnie szacowana
         List<Double> nowa_waga = new ArrayList<>();
 
         for (int i = 0; i < tested.size(); i++) {
 
-            nowa_waga.add(wagi.get(i)+(stala_uczenia*(prawdziwy-szacowany))*tested.get(i));
+            nowa_waga.add(wagi.get(i)+(stala_uczenia*(d-y))*tested.get(i));
 
         }
 
         this.wagi = nowa_waga;
-        this.prog_odchylenia= prog_odchylenia-stala_uczenia*(prawdziwy-szacowany);
+        this.Teta= (Teta-(d-y)*stala_uczenia);
 
     }
 
-    public int guess (List<Double> tested){
-
-        Double net = 0.0;
-
-        for (int i = 0; i < tested.size(); i++) {
-            net+=tested.get(i)*wagi.get(i);
+    private double obliczNet(List<Double> amount_of_elements) {
+        double net = 0;
+        for (int i = 0; i < wagi.size(); i++) {
+            net += wagi.get(i) * amount_of_elements.get(i);
         }
+        return (net-this.Teta);
+    }
 
-        net+=prog_odchylenia;
+    private boolean funkcja_aktywacji (Double net){
+        return (net >= 0);
+    }
 
-        if (net >= 0) {
-            // neuron activation
+    public int guess(List<Double> amount_of_elements) {
+        if (funkcja_aktywacji(obliczNet(amount_of_elements))) {
             return 1;
         }
-        //not recognised
         return 0;
     }
+
 
     private Double dlugosc (){
         double dlugosc = 0;
