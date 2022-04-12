@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 public class Files_operations {
 
-    List<Double> scan_for_letters (Path path){
+   public static List<Double> scan_for_letters (Path path){
         BufferedReader treningdata = null;
         List<Double> elements = new ArrayList<>();
         for (int i = 0; i < 26; i++) {
@@ -30,8 +30,8 @@ public class Files_operations {
                 temp = line.toCharArray();
 
                 for (char testowe : temp
-                ) { if (testowe >= 'A' || testowe <= 'Z') {
-                        elements.add((int) testowe - 65 , 1.0);
+                ) { if (testowe >= 'A' && testowe <= 'Z') {
+                        elements.set((int) testowe - 65 ,elements.get((int) testowe - 65 ) + 1.0);
                     }
                 }
 
