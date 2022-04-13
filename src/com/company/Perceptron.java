@@ -29,6 +29,7 @@ public class Perceptron {
         this.stala_uczenia=stala_uczenia;
         this.akceptowalny_procent_bladow=procent_bledow;
         this.Perceptron_name = perceptron_name;
+        normalizuj_wagi();
         System.out.println("\nPerceptron "+ this.Perceptron_name + " created\n------------");
     }
 
@@ -102,6 +103,33 @@ public class Perceptron {
         }
 
         this.wagi=nowa_waga;
+
+    }
+
+    public static List<Double> normalizuj_wagi (List<Double> wagi){
+
+        List<Double> nowa_waga = new ArrayList<>();
+        double Dlugosc = dlugosc(wagi);
+
+        for (Double ele :wagi
+        ) {
+            nowa_waga.add(ele/Dlugosc);
+        }
+
+        return nowa_waga;
+
+    }
+
+    private static Double dlugosc (List<Double> wagi){
+        double dlugosc = 0;
+
+        for (Double ele: wagi
+        ) {
+            dlugosc+= (ele*ele);
+        }
+        dlugosc= Math.sqrt(dlugosc);
+
+        return dlugosc;
 
     }
 
