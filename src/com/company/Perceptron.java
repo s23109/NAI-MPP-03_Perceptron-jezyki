@@ -23,13 +23,12 @@ public class Perceptron {
         this.number_of_wagi = number_of_wagi;
         System.out.print("Wagi Perceptronu: ");
         for (int i = 0; i < number_of_wagi; i++) {
-            wagi.add((Math.random()));
+            wagi.add((1.0/number_of_wagi));
             System.out.print(wagi.get(i) + " ");
         }
         this.stala_uczenia=stala_uczenia;
         this.akceptowalny_procent_bladow=procent_bledow;
         this.Perceptron_name = perceptron_name;
-        normalizuj_wagi();
         System.out.println("\nPerceptron "+ this.Perceptron_name + " created\n------------");
     }
 

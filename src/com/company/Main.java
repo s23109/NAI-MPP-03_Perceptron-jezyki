@@ -22,8 +22,8 @@ public class Main {
 //            System.out.print("\n" + Perceptron.normalizuj_wagi(Files_operations.scan_for_letters(e)) + "\n");
 //        }
         final boolean user_input = false;
-        final double stala_uczenia = 0.001;
-        final double akceptowalny_procent_bledow = 0.005;
+        final double stala_uczenia = 0.01;
+        final double akceptowalny_procent_bledow = 0;
         final int learn_loop_limit = 1000;
 
         Map<String,List<Path> > files_map = new HashMap<>();
@@ -103,26 +103,59 @@ public class Main {
         // / perceptron learn
         }
 
-        System.out.println("\n" + (user_input ? "User input ":"Test from file ") + "detected \n") ;
+        System.out.println("\n" + (user_input ? "User input ":"Test from file ") + "detected") ;
 
         if (!user_input){
             //test from file
             for (Perceptron perceptron : perceptronList) {
                 double ile_przeszedl = 0.0;
                 double ile_zgadl = 0.0;
+                System.out.println("\n\nPerceptron "+ perceptron.getPerceptron_name() + " : ");
 
                 for (Map.Entry map_element: files_map.entrySet()) {
                 String key = (String) map_element.getKey();
 
                 if (!key.contains("Test")) continue;
+                    System.out.print("\nDla danych z " + key + " : ");
 
-                List<Path> files = (List<Path>) map_element.getValue();
+                    int TP = 0;
+                    int FP = 0;
+                    int TN = 0;
+                    int FN = 0;
+
+                    List<Path> files = (List<Path>) map_element.getValue();
+
+                    for (Path file: files
+                         ) {
+                        ile_przeszedl+=1.0;
 
 
+                        List<Double> wagi_z_pliku = Files_operations.scan_for_letters(file);
 
+                        int strzal = perceptron.guess(wagi_z_pliku);
+                        int rzeczywistosc = (key.contains(perceptron.getPerceptron_name())?1:0);
+
+                        if (strzal==rzeczywistosc){
+                            //git trafiony
+                            ile_zgadl+=1.0;
+                            if (strzal==1) TP+=1;
+                            else TN+=1;
+
+                        }
+                        else {
+                            //nie zgadł
+
+                            if(strzal==1) FP+=1;
+                            else FN+=1;
+
+                        }
+
+                        //EoF
+                    }
+                    System.out.print("TP:" + TP + " TN:" + TN + " FP:" +FP + " FN:" + FN);
                 }
 
-
+                System.out.print("\nCelnosc : " + ile_zgadl/ile_przeszedl);
             }
 
 
