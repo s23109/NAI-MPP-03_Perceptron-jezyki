@@ -1,10 +1,7 @@
 package com.company;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Main {
 
@@ -21,10 +18,10 @@ public class Main {
 //            });
 //            System.out.print("\n" + Perceptron.normalizuj_wagi(Files_operations.scan_for_letters(e)) + "\n");
 //        }
-        final boolean user_input = false;
-        final double stala_uczenia = 0.01;
+        final boolean is_user_input = true;
+        final double stala_uczenia = 0.1;
         final double akceptowalny_procent_bledow = 0;
-        final int learn_loop_limit = 1000;
+        final int learn_loop_limit = 100;
 
         Map<String,List<Path> > files_map = new HashMap<>();
         files_map.put("Polish" , Files_operations.find_files_in_folder(Path.of("Items\\\\lang\\\\Polish")));
@@ -103,9 +100,9 @@ public class Main {
         // / perceptron learn
         }
 
-        System.out.println("\n" + (user_input ? "User input ":"Test from file ") + "detected") ;
+        System.out.println("\n" + (is_user_input ? "User input ":"Test from file ") + "detected") ;
 
-        if (!user_input){
+        if (!is_user_input){
             //test from file
             for (Perceptron perceptron : perceptronList) {
                 double ile_przeszedl = 0.0;
@@ -163,6 +160,46 @@ public class Main {
         }
         else {
             //user input
+            System.out.println("Wpisz jakieś zdanie po jednym z podanych niżej języków ; Aby wyjść wpisz qqq");
+
+
+            String user_input= null;
+            Scanner in = new Scanner(System.in);
+
+            while (true){
+                user_input = in.nextLine();
+                if (user_input.contains("qqq")) break;
+
+                //format inputu
+                user_input = user_input.toUpperCase(Locale.ROOT);
+                List<Double> wagi = Files_operations.scan_line_for_letters(user_input);
+                wagi = Perceptron.normalizuj_wagi(wagi);
+
+
+                int aktywowane = 0;
+                String nazwa_perceptronu = null;
+                double net_najwiekszy = -1000000;
+
+                for (Perceptron p: perceptronList
+                     ) {
+                    if (p.guess(wagi)==1) {
+                        System.out.println("Perceptron " + p.getPerceptron_name() + " aktywuje się przy podanym zdaniu");
+                    aktywowane+=1;
+                    }
+
+                    if (p.obliczNet(wagi) > net_najwiekszy) {
+                        net_najwiekszy = p.obliczNet(wagi);
+                        nazwa_perceptronu=p.getPerceptron_name();
+                    }
+
+                }
+
+                System.out.println("Najbardziej prawdopodobny jezyk : " + nazwa_perceptronu);
+
+                user_input = null;
+            }
+
+
         }
 
 

@@ -22,6 +22,9 @@ public class Perceptron {
     public Perceptron(int number_of_wagi , double stala_uczenia , double procent_bledow , String perceptron_name) {
         this.number_of_wagi = number_of_wagi;
         System.out.print("Wagi Perceptronu: ");
+
+        //na początku obstawiam wagi (stosunek znaków do całości) jako równe (znaki występują równomiernie)
+
         for (int i = 0; i < number_of_wagi; i++) {
             wagi.add((1.0/number_of_wagi));
             System.out.print(wagi.get(i) + " ");
@@ -58,7 +61,7 @@ public class Perceptron {
 
     }
 
-    private double obliczNet(List<Double> amount_of_elements) {
+    public double obliczNet(List<Double> amount_of_elements) {
         double net = 0;
         for (int i = 0; i < wagi.size(); i++) {
             net += wagi.get(i) * amount_of_elements.get(i);

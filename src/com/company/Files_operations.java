@@ -45,6 +45,21 @@ public class Files_operations {
         return elements;
     }
 
+    public  static List<Double> scan_line_for_letters (String line) {
+        List<Double> elements = new ArrayList<>();
+        for (int i = 0; i < 26; i++) {
+            elements.add(0.0);
+        }
+
+        for (char a : line.toCharArray()
+             ) {
+            if (a >= 'A' && a <='Z'){
+                elements.set((int) a - 65 ,elements.get((int) a - 65 ) + 1.0);
+            }
+        }
+        return elements;
+    }
+
     public static List <Path> find_files_in_folder ( Path folder_path){
         List <Path> found_files = new ArrayList<>();
 
