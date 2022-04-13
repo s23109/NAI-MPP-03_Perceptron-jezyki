@@ -131,6 +131,7 @@ public class Main {
 
 
                         List<Double> wagi_z_pliku = Files_operations.scan_for_letters(file);
+                        wagi_z_pliku = Perceptron.normalizuj_wagi(wagi_z_pliku);
 
                         int strzal = perceptron.guess(wagi_z_pliku);
                         int rzeczywistosc = (key.contains(perceptron.getPerceptron_name())?1:0);
