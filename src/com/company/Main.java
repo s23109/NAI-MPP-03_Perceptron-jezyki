@@ -21,8 +21,9 @@ public class Main {
 //            });
 //            System.out.print("\n" + Perceptron.normalizuj_wagi(Files_operations.scan_for_letters(e)) + "\n");
 //        }
-        final double stala_uczenia = 0.025;
-        final double akceptowalny_procent_bledow = 0.01;
+        final boolean user_input = false;
+        final double stala_uczenia = 0.001;
+        final double akceptowalny_procent_bledow = 0.005;
         final int learn_loop_limit = 1000;
 
         Map<String,List<Path> > files_map = new HashMap<>();
@@ -53,7 +54,7 @@ public class Main {
 
                 for (Map.Entry map_element: files_map.entrySet()) {
                     String key = (String) map_element.getKey();
-                    if (key.contains("Test")) break;
+                    if (key.contains("Test")) continue;
 
                     List<Path> files = (List<Path>) map_element.getValue();
 
@@ -99,10 +100,36 @@ public class Main {
             perceptron.wypisz_wagi();
             System.out.print("------------\n");
 
-
+        // / perceptron learn
         }
 
+        System.out.println("\n" + (user_input ? "User input ":"Test from file ") + "detected \n") ;
 
+        if (!user_input){
+            //test from file
+            for (Perceptron perceptron : perceptronList) {
+                double ile_przeszedl = 0.0;
+                double ile_zgadl = 0.0;
+
+                for (Map.Entry map_element: files_map.entrySet()) {
+                String key = (String) map_element.getKey();
+
+                if (!key.contains("Test")) continue;
+
+                List<Path> files = (List<Path>) map_element.getValue();
+
+
+
+                }
+
+
+            }
+
+
+        }
+        else {
+            //user input
+        }
 
 
     }
